@@ -279,10 +279,42 @@
                 min-width: 100vw;
                 min-height: 100vh;
                 padding: 0;
+                border-radius: 0;
+            }
+            .top-row {
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+                margin-bottom: 8px;
+            }
+            .top-box, .score-main-box, .top-score-box {
+                min-width: 90vw;
+                min-height: 48px;
+                padding: 8px 0;
+                font-size: 20px;
+            }
+            .score-main-value, #top-score {
+                font-size: 32px;
             }
             .main-content-row {
                 flex-direction: column;
                 align-items: center;
+                width: 100vw;
+            }
+            .game-board-frame {
+                padding: 0;
+                margin: 0 auto;
+                border-radius: 12px;
+            }
+            #game-board {
+                width: 95vw !important;
+                height: 70vw !important;
+                max-width: 98vw;
+                max-height: 70vw;
+                min-width: 220px;
+                min-height: 320px;
+                display: block;
+                margin: 0 auto;
             }
             .side-panel-right {
                 display: none;
@@ -291,15 +323,32 @@
                 display: none;
             }
             .controls-box {
-                min-height: 40px;
-                font-size: 12px;
-                padding: 4px 4px;
+                min-height: 32px;
+                font-size: 15px;
+                padding: 6px 2px;
+                margin: 0 auto 8px auto;
+                width: 95vw;
+                border-radius: 10px;
             }
-            #game-board {
-                width: 90vw !important;
-                height: 60vw !important;
-                max-width: 320px;
-                max-height: 480px;
+            .mobile-controls {
+                display: flex;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100vw;
+                background: rgba(24,30,58,0.98);
+                z-index: 2000;
+                justify-content: space-around;
+                align-items: center;
+                padding: 16px 0 24px 0;
+                gap: 16px;
+            }
+            .mobile-btn {
+                font-size: 32px;
+                width: 64px;
+                height: 64px;
+                border-radius: 16px;
+                margin: 0 4px;
             }
         }
         .mobile-controls {
