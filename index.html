@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetris Oyunu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #232a4d 0%, #181e3a 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Inter', Arial, sans-serif;
+        }
+        .tetris-container {
+            background: linear-gradient(135deg, #232a4d 60%, #26306a 100%);
+            border-radius: 32px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            padding: 32px 36px 24px 36px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 900px;
+            min-height: 700px;
+            position: relative;
+            height: 100vh;
+            width: 100vw;
+        }
+        .top-row {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 32px;
+            width: 100%;
+            margin-bottom: 24px;
+        }
+        .top-box, .score-main-box, .top-score-box {
+            border-radius: 18px;
+            box-shadow: 0 4px 24px 0 rgba(31, 38, 135, 0.10);
+            padding: 18px 36px;
+            min-width: 140px;
+            min-height: 80px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #232a4d;
+        }
+        .score-main-box {
+            background: linear-gradient(90deg, #ffe259 0%, #ffa751 100%);
+            color: #222c36;
+            font-size: 40px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            border-radius: 18px;
+            box-shadow: 0 6px 32px 0 rgba(255, 200, 0, 0.18);
+            border: 1.5px solid #ffe259;
+        }
+        .score-label {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #b06a00;
+            margin-bottom: 2px;
+        }
+        .score-main-value {
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 8px #fff8, 0 1px 0 #fff;
+        }
+        .info-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #7ecbff;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+        .info-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+        .main-content-row {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: flex-start;
+            width: 100%;
+        }
+        .game-board-frame {
+            background: #181e3a;
+            border-radius: 18px;
+            padding: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+            position: relative;
+        }
+        #game-board {
+            background: #111a22;
+            border-radius: 8px;
+            display: block;
+        }
+        .side-panel-right {
+            width: 240px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            margin-left: 30px;
+            gap: 12px;
+        }
+        .panel-box {
+            background: linear-gradient(135deg, #26306a 60%, #232a4d 100%);
+            color: #fff;
+            border-radius: 18px;
+            border: 1.5px solid #2e3a6a;
+            padding: 18px 18px 10px 18px;
+            min-width: 160px;
+            min-height: 120px;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .hold-title, .next-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #7ecbff;
+            margin-bottom: 4px;
+            letter-spacing: 1px;
+        }
+        #hold-canvas, #next-canvas {
+            background: #181e3a;
+            border-radius: 8px;
+            margin: 0 auto;
+            display: block;
+            width: 90px;
+            height: 90px;
+        }
+        .controls-buttons-col {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 12px;
+            width: 100%;
+            align-items: center;
+        }
+        .controls-box {
+            background: linear-gradient(135deg, #26306a 60%, #232a4d 100%);
+            color: #fff;
+            border-radius: 18px;
+            border: 1.5px solid #2e3a6a;
+            padding: 18px 18px;
+            font-size: 17px;
+            font-family: 'Inter', Arial, sans-serif;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+            text-align: center;
+            width: 100%;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #start-btn {
+            width: 100%;
+            font-size: 18px;
+            padding: 10px 0;
+            background: linear-gradient(90deg, #7ecbff 0%, #4a90e2 100%);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            margin-top: 10px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+        }
+        #start-btn:hover {
+            background: linear-gradient(90deg, #4a90e2 0%, #7ecbff 100%);
+        }
+        .next-hold-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            align-items: center;
+        }
+        #game-over-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: #181e3a;
+            opacity: 1;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        #game-over-overlay .game-over-title {
+            color: #fff;
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 32px;
+            letter-spacing: 2px;
+        }
+        #restart-btn {
+            font-size: 24px;
+            padding: 16px 48px;
+            background: linear-gradient(90deg, #7ecbff 0%, #4a90e2 100%);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+        }
+        #restart-btn:hover {
+            background: linear-gradient(90deg, #4a90e2 0%, #7ecbff 100%);
+        }
+        @media (max-width: 900px) {
+            .tetris-container {
+                min-width: 100vw;
+                min-height: 100vh;
+                padding: 8px 0 8px 0;
+            }
+            .main-content-row {
+                flex-direction: column;
+                align-items: center;
+            }
+            .side-panel-right {
+                flex-direction: row;
+                width: 100vw;
+                margin-left: 0;
+                gap: 8px;
+                justify-content: center;
+            }
+            .panel-box {
+                min-width: 90px;
+                min-height: 90px;
+                padding: 8px 8px 4px 8px;
+            }
+            .game-board-frame {
+                padding: 4px;
+            }
+            #game-board {
+                width: 180px !important;
+                height: 360px !important;
+            }
+            .score-main-box, .top-box {
+                min-width: 90px;
+                min-height: 50px;
+                padding: 8px 8px;
+                font-size: 18px;
+            }
+            .score-main-value {
+                font-size: 28px;
+            }
+            .info-value {
+                font-size: 18px;
+            }
+            .controls-buttons-col, .controls-box {
+                min-height: 60px;
+                font-size: 13px;
+                padding: 8px 8px;
+            }
+        }
+        @media (max-width: 600px) {
+            .tetris-container {
+                min-width: 100vw;
+                min-height: 100vh;
+                padding: 0;
+            }
+            .main-content-row {
+                flex-direction: column;
+                align-items: center;
+            }
+            .side-panel-right {
+                display: none;
+            }
+            .controls-buttons-col {
+                display: none;
+            }
+            .controls-box {
+                min-height: 40px;
+                font-size: 12px;
+                padding: 4px 4px;
+            }
+            #game-board {
+                width: 90vw !important;
+                height: 60vw !important;
+                max-width: 320px;
+                max-height: 480px;
+            }
+        }
+        .mobile-controls {
+            display: none;
+        }
+        @media (max-width: 600px) {
+            .mobile-controls {
+                display: flex;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100vw;
+                background: rgba(24,30,58,0.98);
+                z-index: 2000;
+                justify-content: space-around;
+                align-items: center;
+                padding: 10px 0 18px 0;
+                gap: 8px;
+            }
+            .mobile-btn {
+                font-size: 22px;
+                width: 48px;
+                height: 48px;
+                border-radius: 12px;
+                border: none;
+                background: linear-gradient(90deg, #7ecbff 0%, #4a90e2 100%);
+                color: #fff;
+                font-weight: bold;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+            }
+            .mobile-btn:active {
+                background: linear-gradient(90deg, #4a90e2 0%, #7ecbff 100%);
+            }
+        }
+        .next-panel-modern {
+            background: linear-gradient(135deg, #232a4d 60%, #26306a 100%);
+            border: 1.5px solid #4a90e2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 0;
+        }
+        #welcome-overlay {
+            display: flex;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: #181e3a;
+            opacity: 1;
+            z-index: 2000;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        #welcome-start-btn {
+            font-family: 'Inter', Arial, sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            background: linear-gradient(90deg, #ffe259 0%, #ffa751 100%);
+            color: #232a4d;
+            border: none;
+            border-radius: 16px;
+            padding: 18px 56px;
+            margin-top: 24px;
+            box-shadow: 0 4px 24px 0 rgba(255, 200, 0, 0.18);
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+        }
+        #welcome-start-btn:hover {
+            background: linear-gradient(90deg, #ffa751 0%, #ffe259 100%);
+            color: #181e3a;
+            box-shadow: 0 6px 32px 0 rgba(255, 200, 0, 0.28);
+        }
+        #top-score {
+            font-size: 36px;
+            font-weight: 800;
+            color: #ffe259;
+            text-shadow: 0 2px 8px #fff8, 0 1px 0 #fff;
+        }
+        #welcome-overlay .game-over-title {
+            font-family: 'Inter', Arial, sans-serif;
+            font-size: 48px;
+            font-weight: 800;
+            color: #ffe259;
+            letter-spacing: 2px;
+            margin-bottom: 32px;
+        }
+        .top-score-box {
+            background: linear-gradient(90deg, #7ecbff 0%, #4a90e2 100%);
+            color: #222c36;
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            border: 1.5px solid #7ecbff;
+        }
+        #game-over-stats {
+            background: #232a4d;
+            border-radius: 16px;
+            padding: 24px 36px;
+            color: #fff;
+            font-size: 22px;
+            font-family: 'Inter', Arial, sans-serif;
+            font-weight: 600;
+            margin-bottom: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="tetris-container">
+        <div class="top-row">
+            <div class="top-box">
+                <div class="info-title">SÜRE</div>
+                <div class="info-value" id="timer">00:00</div>
+            </div>
+            <div class="top-box">
+                <div class="info-title">LEVEL</div>
+                <div class="info-value" id="level">1</div>
+            </div>
+            <div class="top-box">
+                <div class="info-title">LINES</div>
+                <div class="info-value" id="lines">0</div>
+            </div>
+            <div class="score-main-box">
+                <div class="score-label">SCORE</div>
+                <div class="score-main-value" id="score">0</div>
+            </div>
+            <div class="top-score-box">
+                <div class="info-title">TOP SCORE</div>
+                <div class="info-value" id="top-score">0</div>
+            </div>
+        </div>
+        <div class="main-content-row">
+            <div class="game-board-frame">
+                <canvas id="game-board" width="300" height="600"></canvas>
+            </div>
+            <div class="side-panel-right">
+                <div class="next-hold-stack">
+                    <div class="panel-box next-panel-modern">
+                        <div class="next-title">NEXT</div>
+                        <canvas id="next-canvas" width="90" height="90"></canvas>
+                    </div>
+                </div>
+                <div class="controls-buttons-col" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 12px; width: 100%; align-items: center;">
+                    <button id="start-btn">BAŞLAT</button>
+                </div>
+                <div class="controls-box">
+                    <b>KONTROLLER</b><br>
+                    ← → : Hareket<br>
+                    ↑ : Döndür<br>
+                    ↓ : Hızlandır<br>
+                    Space : Düşür
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="game-over-overlay">
+        <div class="game-over-title">GAME OVER</div>
+        <div id="game-over-stats">
+            <div>Score: <span id="go-score">0</span></div>
+            <div>Level: <span id="go-level">0</span></div>
+            <div>Lines: <span id="go-lines">0</span></div>
+            <div>Top Score: <span id="go-top-score">0</span></div>
+        </div>
+        <button id="restart-btn">YENİDEN BAŞLA</button>
+    </div>
+    <div class="mobile-controls">
+        <button class="mobile-btn" id="btn-left">←</button>
+        <button class="mobile-btn" id="btn-rotate">⟳</button>
+        <button class="mobile-btn" id="btn-right">→</button>
+        <button class="mobile-btn" id="btn-down">↓</button>
+        <button class="mobile-btn" id="btn-drop">⤓</button>
+    </div>
+    <div id="welcome-overlay">
+        <div class="game-over-title">Hoşgeldiniz</div>
+        <button id="welcome-start-btn">OYUNA BAŞLA</button>
+    </div>
+    <script src="tetris.js"></script>
+</body>
+</html>
