@@ -278,43 +278,50 @@
             .tetris-container {
                 min-width: 100vw;
                 min-height: 100vh;
-                padding: 0;
+                padding: 8px 0 8px 0;
                 border-radius: 0;
             }
             .top-row {
                 flex-direction: column;
                 align-items: center;
-                gap: 8px;
-                margin-bottom: 8px;
+                gap: 10px;
+                margin-bottom: 18px;
             }
             .top-box, .score-main-box, .top-score-box {
-                min-width: 90vw;
-                min-height: 48px;
-                padding: 8px 0;
-                font-size: 20px;
+                min-width: 80vw;
+                min-height: 36px;
+                padding: 6px 0;
+                font-size: 16px;
+                border-radius: 20px;
+                box-shadow: 0 2px 12px 0 rgba(31, 38, 135, 0.10);
             }
             .score-main-value, #top-score {
-                font-size: 32px;
+                font-size: 24px;
             }
             .main-content-row {
                 flex-direction: column;
                 align-items: center;
                 width: 100vw;
+                gap: 16px;
             }
             .game-board-frame {
                 padding: 0;
                 margin: 0 auto;
-                border-radius: 12px;
+                border-radius: 24px;
+                box-shadow: 0 6px 32px 0 rgba(31, 38, 135, 0.18);
+                background: #181e3a;
             }
             #game-board {
-                width: 95vw !important;
-                height: 70vw !important;
+                width: 90vw !important;
+                height: 90vw !important;
                 max-width: 98vw;
-                max-height: 70vw;
-                min-width: 220px;
-                min-height: 320px;
+                max-height: 98vw;
+                min-width: 260px;
+                min-height: 260px;
                 display: block;
                 margin: 0 auto;
+                border-radius: 18px;
+                box-shadow: 0 4px 24px 0 rgba(31, 38, 135, 0.18);
             }
             .side-panel-right {
                 display: none;
@@ -325,10 +332,11 @@
             .controls-box {
                 min-height: 32px;
                 font-size: 15px;
-                padding: 6px 2px;
-                margin: 0 auto 8px auto;
-                width: 95vw;
-                border-radius: 10px;
+                padding: 8px 2px;
+                margin: 0 auto 12px auto;
+                width: 90vw;
+                border-radius: 14px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.10);
             }
             .mobile-controls {
                 display: flex;
@@ -340,15 +348,16 @@
                 z-index: 2000;
                 justify-content: space-around;
                 align-items: center;
-                padding: 16px 0 24px 0;
-                gap: 16px;
+                padding: 18px 0 28px 0;
+                gap: 20px;
             }
             .mobile-btn {
-                font-size: 32px;
-                width: 64px;
-                height: 64px;
-                border-radius: 16px;
-                margin: 0 4px;
+                font-size: 36px;
+                width: 72px;
+                height: 72px;
+                border-radius: 20px;
+                margin: 0 6px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.12);
             }
         }
         .mobile-controls {
